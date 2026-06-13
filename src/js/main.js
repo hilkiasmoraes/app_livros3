@@ -21,6 +21,7 @@ function render(){
     switch(rota){
         case '#inicio':
             app.innerHTML = home;
+            capturarFormulario();
         break;
         case '#sobre':
             app.innerHTML = sobre;
@@ -36,6 +37,33 @@ function render(){
     }
 }
 
+function capturarFormulario(){
+    const formulario = document.getElementById('formulario-fila');
+    const lista = document.getElementById('lista-de-pessoas');
+    lista.style.display = "flex";
+    lista.style.flexDirection = "column";
+    lista.style.listStyle = "none";
+    formulario.addEventListener('submit', (event) => {
+        event.preventDefault();
+        //console.log(event);
+        //const idadeInput = event.target.elements['idade'];
+        const idade = document.getElementById('idade');
+        if(idade.value >= 65){
+            console.log("Pessoa com prioridade!");
+            filaDoBanco.unshift(idade.value);
+        }else{
+            console.log("Pessoa sem prioridade!");
+            filaDoBanco.push(idade.value);
+        }
+        idade.value = "";
+        lista.innerHTML = "";
+        filaDoBanco.forEach((item) => {
+            const li = document.createElement('li');
+            li.innerHTML = "Pessoa com idade: " + item + " anos";
+            lista.appendChild(li);
+        });
+    } );
+}
 
 // console.log("contagem regressiva")
 // for(let i=100; i>=0; i-=5){
